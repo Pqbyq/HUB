@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Logowanie - {{ app_name }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+{% block navbar %}
+<!-- Brak nawigacji na stronie logowania -->
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-logo">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="{{ app_name }}">
+    </div>
+    
+    <div class="login-header">
+        <h1>{{ app_name }}</h1>
+        <p>Zaloguj się aby uzyskać dostęp</p>
+    </div>
+    
+    <form class="login-form" method="post" action="{{ url_for('auth.login') }}">
+        <div class="form-group">
+            <label for="username">Nazwa użytkownika</label>
+            <input type="text" id="username" name="username" class="form-control" required placeholder="Wprowadź nazwę użytkownika">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Hasło</label>
+            <input type="password" id="password" name="password" class="form-control" required placeholder="Wprowadź hasło">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Zaloguj się</button>
+        
+        {% if error %}
+        <div class="message error">
+            {{ error }}
+        </div>
+        {% endif %}
+    </form>
+    
+    <div class="login-footer">
+        <p>Tylko dla autoryzowanych użytkowników sieci domowej</p>
+        <p>Skontaktuj się z administratorem w celu uzyskania dostępu</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/theme-detector.js') }}"></script>
+<script>
+    // Dodanie klasy do body
+    document.body.classList.add('login-page');
+</script>
+{% endblock %}

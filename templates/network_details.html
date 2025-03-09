@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Szczegóły sieci - {{ app_name }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/network.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Szczegóły sieci</h1>
+    <p>Monitorowanie i analiza ruchu sieciowego</p>
+</div>
+
+<div class="grid network-grid">
+    <!-- Sekcja podsumowania -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Status połączenia</div>
+            <button class="widget-refresh" id="refresh-network-status">
+                <i class="icon">🔄</i>
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-label">Status</div>
+                    <div class="status-value" id="connection-status">-</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Czas pracy</div>
+                    <div class="status-value" id="uptime">-</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">IP zewnętrzne</div>
+                    <div class="status-value" id="external-ip">-</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">DNS</div>
+                    <div class="status-value" id="dns-server">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sekcja prędkości -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Prędkość sieci</div>
+        </div>
+        <div class="card-body">
+            <div class="speed-grid">
+                <div class="speed-item">
+                    <div class="speed-label">Pobieranie</div>
+                    <div class="speed-value" id="download-speed">-</div>
+                    <div class="speed-chart" id="download-chart"></div>
+                </div>
+                <div class="speed-item">
+                    <div class="speed-label">Wysyłanie</div>
+                    <div class="speed-value" id="upload-speed">-</div>
+                    <div class="speed-chart" id="upload-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sekcja urządzeń w sieci -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Urządzenia w sieci</div>
+            <div class="card-subtitle" id="device-count">Znaleziono 0 urządzeń</div>
+        </div>
+        <div class="card-body">
+            <table class="network-table" id="devices-table">
+                <thead>
+                    <tr>
+                        <th>Nazwa urządzenia</th>
+                        <th>Adres IP</th>
+                        <th>Adres MAC</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Tutaj zostanie wygenerowana lista urządzeń -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Sekcja jakości połączenia -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Jakość połączenia</div>
+        </div>
+        <div class="card-body">
+            <div class="quality-grid">
+                <div class="quality-item">
+                    <div class="quality-label">Ping (ms)</div>
+                    <div class="quality-value" id="ping-value">-</div>
+                </div>
+                <div class="quality-item">
+                    <div class="quality-label">Jitter (ms)</div>
+                    <div class="quality-value" id="jitter-value">-</div>
+                </div>
+                <div class="quality-item">
+                    <div class="quality-label">Packet loss</div>
+                    <div class="quality-value" id="packet-loss">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/network.js') }}"></script>
+{% endblock %}

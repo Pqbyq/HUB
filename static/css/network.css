@@ -1,0 +1,170 @@
+/* network.css - style dla strony szczegółów sieci */
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    color: var(--text-light);
+}
+
+.network-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Karty */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.card-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Status sieći */
+.status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.status-item {
+    padding: 1rem;
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.status-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.status-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Prędkość sieci */
+.speed-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.speed-item {
+    text-align: center;
+}
+
+.speed-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.speed-value {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.speed-chart {
+    height: 100px;
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 8px;
+}
+
+/* Tabela urządzeń */
+.network-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.network-table th,
+.network-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.network-table th {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.network-table tr:last-child td {
+    border-bottom: none;
+}
+
+.network-table tr:hover {
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+/* Jakość połączenia */
+.quality-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.quality-item {
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 8px;
+}
+
+.quality-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.quality-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .status-grid,
+    .speed-grid,
+    .quality-grid {
+        grid-template-columns: 1fr;
+    }
+}

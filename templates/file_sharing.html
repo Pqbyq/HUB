@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Udostępnianie plików - {{ app_name }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/file_sharing.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="file-sharing-container">
+    <div class="page-header">
+        <h1>Udostępnianie plików</h1>
+        <p>Aktualna ścieżka: <span id="current-path">/HomeHubShared</span></p>
+    </div>
+
+    <div class="file-actions">
+        <button id="upload-file-btn" class="btn btn-primary">
+            <i class="icon">📤</i> Prześlij plik
+        </button>
+        <button id="create-folder-btn" class="btn btn-secondary">
+            <i class="icon">📁</i> Nowy folder
+        </button>
+    </div>
+
+    <div class="file-list-container">
+        <table class="file-table" id="file-list-table">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Rozmiar</th>
+                    <th>Data modyfikacji</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody id="file-list-body">
+                <!-- Pliki będą dodawane dynamicznie przez JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Reszta modalów pozostaje bez zmian -->
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/file_sharing.js') }}"></script>
+{% endblock %}{% extends "base.html" %}
+
+{% block title %}Udostępnianie plików - {{ app_name }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/file_sharing.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="file-sharing-container">
+    <div class="page-header">
+        <h1>Udostępnianie plików</h1>
+        <p>Zarządzaj plikami w swoim domowym hubie</p>
+    </div>
+
+    <div class="file-actions">
+        <button id="upload-file-btn" class="btn btn-primary">
+            <i class="icon">📤</i> Prześlij plik
+        </button>
+        <button id="create-folder-btn" class="btn btn-secondary">
+            <i class="icon">📁</i> Nowy folder
+        </button>
+    </div>
+
+    <div class="file-list-container">
+        <table class="file-table" id="file-list-table">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Rozmiar</th>
+                    <th>Data modyfikacji</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody id="file-list-body">
+                <!-- Pliki będą dodawane dynamicznie przez JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal przesyłania pliku -->
+<div class="modal" id="upload-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Prześlij plik</h2>
+            <button class="close" id="close-upload-modal">&times;</button>
+        </div>
+        <form id="upload-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file-input">Wybierz plik</label>
+                <input type="file" id="file-input" name="file" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="cancel-upload-btn">Anuluj</button>
+                <button type="submit" class="btn btn-primary">Prześlij</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal tworzenia folderu -->
+<div class="modal" id="create-folder-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Nowy folder</h2>
+            <button class="close" id="close-folder-modal">&times;</button>
+        </div>
+        <form id="create-folder-form">
+            <div class="form-group">
+                <label for="folder-name">Nazwa folderu</label>
+                <input type="text" id="folder-name" name="name" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="cancel-folder-btn">Anuluj</button>
+                <button type="submit" class="btn btn-primary">Utwórz</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/file_sharing.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Panel Administratora - {{ app_name }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1>Panel Administratora</h1>
+    <p>Zarządzaj użytkownikami i monitoruj system</p>
+</div>
+
+<!-- Karty statystyk -->
+<div class="stats-grid">
+    <div class="stat-card users">
+        <div class="stat-value">{{ total_users }}</div>
+        <div class="stat-label">Liczba Użytkowników</div>
+    </div>
+    
+    <div class="stat-card admins">
+        <div class="stat-value">{{ admin_users }}</div>
+        <div class="stat-label">Administratorzy</div>
+    </div>
+    
+    <div class="stat-card devices">
+        <div class="stat-value">{{ device_count }}</div>
+        <div class="stat-label">Aktywne Urządzenia</div>
+    </div>
+    
+    <div class="stat-card logs">
+        <div class="stat-value">{{ log_count }}</div>
+        <div class="stat-label">Logi Dostępu</div>
+    </div>
+</div>
+
+<!-- Zarządzanie użytkownikami -->
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Zarządzanie Użytkownikami</div>
+        <button class="btn btn-primary" id="add-user-btn">Dodaj Użytkownika</button>
+    </div>
+    <div class="card-body">
+        <div class="users-table-container">
+            <table class="table users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Użytkownik</th>
+                        <th>Email</th>
+                        <th>Rola</th>
+                        <th>Data Utworzenia</th>
+                        <th>Ostatnie Logowanie</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user['id'] }}</td>
+                        <td class="username">{{ user['username'] }}</td>
+                        <td class="email">{{ user['email'] }}</td>
+                        <td>
+                            {% if user['role'] == 'admin' %}
+                            <span class="badge badge-admin">Administrator</span>
+                            {% else %}
+                            <span class="badge badge-user">Użytkownik</span>
+                            {% endif %}
+                        </td>
+                        <td class="date">{{ user['created_at'] }}</td>
+                        <td class="date">{{ user['last_login'] or 'Nigdy' }}</td>
+                        <td class="actions">
+                            <button class="btn btn-primary btn-sm edit-user-btn" 
+                                    data-id="{{ user['id'] }}"
+                                    data-username="{{ user['username'] }}"
+                                    data-email="{{ user['email'] }}"
+                                    data-role="{{ user['role'] }}">
+                                Edytuj
+                            </button>
+                            {% if user['id'] != session.user_id %}
+                            <button class="btn btn-danger btn-sm delete-user-btn" 
+                                    data-id="{{ user['id'] }}"
+                                    data-username="{{ user['username'] }}">
+                                Usuń
+                            </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal dodawania/edycji użytkownika -->
+<div class="modal" id="user-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title">Dodaj Nowego Użytkownika</h2>
+            <button class="close" id="close-modal">&times;</button>
+        </div>
+        
+        <form id="user-form" class="modal-form" method="post" action="{{ url_for('user.create_user') }}">
+            <input type="hidden" id="user-id" name="user_id" value="">
+            <input type="hidden" id="form-action" value="create">
+            
+            <div class="form-group">
+                <label for="username">Nazwa Użytkownika</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Hasło</label>
+                <input type="password" class="form-control" id="password" name="password">
+                <span class="form-hint" id="password-hint">Minimalna długość: 8 znaków</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="role">Rola</label>
+                <select class="form-control" id="role" name="role" required>
+                    <option value="user">Użytkownik</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="cancel-btn">Anuluj</button>
+                <button type="submit" class="btn btn-primary" id="save-user-btn">Zapisz</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal potwierdzenia usunięcia -->
+<div class="modal" id="delete-modal">
+    <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+            <h2>Potwierdź Usunięcie</h2>
+            <button class="close" id="close-delete-modal">&times;</button>
+        </div>
+        
+        <p style="margin-bottom: 1rem;">Czy na pewno chcesz usunąć użytkownika <span id="delete-username" class="delete-confirm"></span>?</p>
+        <p style="color: var(--error-color); font-weight: 500; margin-bottom: 1rem;">Ta operacja jest nieodwracalna.</p>
+        
+        <form id="delete-form" method="post" action="">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="cancel-delete-btn">Anuluj</button>
+                <button type="submit" class="btn btn-danger" id="confirm-delete-btn">Usuń</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

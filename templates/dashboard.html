@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - {{ app_name }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-welcome">
+    <h1>Witaj, {{ username }}!</h1>
+    <p>Oto Twój panel kontrolny domowego huba.</p>
+</div>
+
+<div class="grid dashboard-grid">
+    <div class="widget" id="weather-widget">
+        <div class="widget-header">
+            <div class="widget-title">Pogoda</div>
+            <div class="widget-location" id="weather-location">
+                <span id="current-city">Warszawa</span>
+                <button class="widget-location-btn" id="change-location-btn">
+                    <i class="icon">📍</i>
+                </button>
+            </div>
+        </div>
+        <div class="widget-weather">
+            <div class="weather-condition">Pogodnie</div>
+            <div class="weather-icon">☀️</div>
+            <div class="weather-temp">--°C</div>
+            <div class="weather-info">
+                <div class="weather-item">
+                    <div class="weather-item-value">--%</div>
+                    <div class="weather-item-label">Wilgotność</div>
+                </div>
+                <div class="weather-item">
+                    <div class="weather-item-value">-- km/h</div>
+                    <div class="weather-item-label">Wiatr</div>
+                </div>
+                <div class="weather-item">
+                    <div class="weather-item-value">-- hPa</div>
+                    <div class="weather-item-label">Ciśnienie</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="widget" id="time-widget">
+        <div class="widget-header">
+            <div class="widget-title">Czas i data</div>
+        </div>
+        <div class="time-widget">
+            <div class="current-time" id="currentTime">--:--:--</div>
+            <div class="current-date" id="currentDate">------------</div>
+        </div>
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button id="prevMonth" class="btn-icon">◀</button>
+                <button id="nextMonth" class="btn-icon">▶</button>
+                <div id="currentMonth" class="calendar-title">Marzec 2025</div>
+                
+            </div>
+            <table class="calendar" id="calendar">
+                <thead>
+                    <tr>
+                        <th>Pn</th>
+                        <th>Wt</th>
+                        <th>Śr</th>
+                        <th>Cz</th>
+                        <th>Pt</th>
+                        <th>So</th>
+                        <th>Nd</th>
+                    </tr>
+                </thead>
+                <tbody id="calendarBody">
+                    <!-- Tutaj zostanie wygenerowany kalendarz przez JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="widget" id="network-widget">
+        <div class="widget-header">
+            <div class="widget-title">Status sieci</div>
+            <div class="widget-actions">
+                <a href="{{ url_for('network.network_details') }}" class="widget-details-link" title="Szczegóły sieci">
+                    <i class="icon">📊</i>
+                </a>
+                <button class="widget-refresh" id="refresh-network" title="Odśwież">
+                    <i class="icon">🔄</i>
+                </button>
+            </div>
+        </div>
+        <div class="network-status">
+            <div class="network-item">
+                <div class="network-value" id="download-speed">-- Mbps</div>
+                <div class="network-label">Prędkość pobierania</div>
+            </div>
+            <div class="network-item">
+                <div class="network-value" id="upload-speed">-- Mbps</div>
+                <div class="network-label">Prędkość wysyłania</div>
+            </div>
+            <div class="network-item">
+                <div class="network-value" id="connected-devices">--</div>
+                <div class="network-label">Połączone urządzenia</div>
+            </div>
+            <div class="network-item">
+                <div class="network-value" id="connection-status">--</div>
+                <div class="network-label">Status połączenia</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal wyboru miasta -->
+<div class="modal" id="location-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Zmień lokalizację</h2>
+            <button class="close" id="close-location-modal">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="city-search">Wyszukaj miasto</label>
+                <div class="search-container">
+                    <input type="text" class="form-control" id="city-search" placeholder="Wpisz nazwę miasta...">
+                    <button id="search-city-btn" class="btn btn-primary">Szukaj</button>
+                </div>
+            </div>
+            
+            <div id="city-results" class="city-results"></div>
+        </div>
+        
+        <div class="modal-footer">
+            <button id="cancel-location-btn" class="btn btn-danger">Anuluj</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
